@@ -5,6 +5,7 @@ const swaggerUi = require("swagger-ui-express");
 const YAML = require("yamljs");
 const models = require("./models");
 const authRouter = require("./routes/auth");
+const studyRouter = require("./routes/study");
 
 const app = express();
 
@@ -22,6 +23,7 @@ app.get("/", (req, res) => {
 
 // router
 app.use("/auth", authRouter);
+app.use("/studies", studyRouter);
 
 // 다른 라우터 하단에 에러 페이지 처리 (404, 500 등)
 
