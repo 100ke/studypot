@@ -1,5 +1,7 @@
+require("dotenv").config();
 const express = require("express");
 const models = require("./models");
+const authRouter = require("./routes/auth");
 
 const app = express();
 
@@ -10,6 +12,9 @@ app.use(express.json()); // json 파싱 미들웨어
 app.get("/", (req, res) => {
   res.send("hello studypot api");
 });
+
+// router
+app.use("/auth", authRouter);
 
 // 다른 라우터 하단에 에러 페이지 처리 (404, 500 등)
 
