@@ -1,5 +1,8 @@
 require("dotenv").config();
 const express = require("express");
+const path = require("path");
+const swaggerUi = require("swagger-ui-express");
+const YAML = require("yamljs");
 const models = require("./models");
 const authRouter = require("./routes/auth");
 
@@ -7,6 +10,10 @@ const app = express();
 
 // 미들웨어 설정
 app.use(express.json()); // json 파싱 미들웨어
+
+// Swagger 설정
+const swaggerDocument = YAML.load(path.join(__dirname, "swagger.yaml"));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // 서버 구동 테스트
 app.get("/", (req, res) => {
