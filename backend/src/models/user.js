@@ -8,5 +8,23 @@ module.exports = (sequelize, DataTypes) => {
     },
     { tableName: "users" }
   );
+  User.associate = function (models) {
+    User.hasMany(models.Study, {
+      foreignKey: "hostId",
+      as: "openedStudies",
+    });
+    User.belongsToMany(models.Study, {
+      through: models.JoinRequest,
+      foreignKey: "userId",
+      otherKey: "studyId",
+      as: "appliedStudies",
+    });
+    User.hasMany(models.Comment, {
+      foreignKey: "userId",
+    });
+    User.hasMany(models.Like, {
+      foreignKey: "userId",
+    });
+  };
   return User;
 };
