@@ -36,7 +36,7 @@ const cancelLikeStudy = async (userId, studyId) => {
     where: { userId: userId, studyId: studyId },
   });
   if (result > 0) {
-    return;
+    return result;
   } else {
     const error = new Error("좋아요 취소 실패");
     error.status = 404;
@@ -45,7 +45,7 @@ const cancelLikeStudy = async (userId, studyId) => {
 };
 
 const totalLikes = async (studyId) => {
-  const likesCount = models.Like.count({ where: { studyId: studyId } });
+  const likesCount = await models.Like.count({ where: { studyId: studyId } });
   return likesCount;
 };
 

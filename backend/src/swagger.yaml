@@ -379,7 +379,7 @@ paths:
         404:
           description: 좋아요 기록 없음
 
-  /studies/{id}/likes/count:
+  /studies/{id}/likes:
     get:
       tags:
         - Likes
