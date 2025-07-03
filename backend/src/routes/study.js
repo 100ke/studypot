@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const studyController = require("../controllers/studyController");
 const joinRequestController = require("../controllers/joinRequestController");
+const likeController = require("../controllers/likeController");
 const { authenticate } = require("../middlewares/authMiddleware");
 
 router.post("/", authenticate, studyController.createStudy);
@@ -25,5 +26,9 @@ router.patch(
   authenticate,
   joinRequestController.updateJoinRequestStatus
 );
+
+router.post("/:id/like", authenticate, likeController.createLike);
+router.delete("/:id/like", authenticate, likeController.deleteLike);
+router.get("/:id/likes", likeController.totalLikes);
 
 module.exports = router;
