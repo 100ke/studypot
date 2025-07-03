@@ -11,6 +11,7 @@ const deleteLike = async (req, res) => {
   const userId = req.user.id;
   const studyId = req.params.id;
   const result = await likeService.cancelLikeStudy(userId, studyId);
+  // 수정 필요 확인
   if (result > 0) {
     res.status(204).send();
   } else {

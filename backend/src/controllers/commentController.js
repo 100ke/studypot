@@ -1,5 +1,4 @@
 const commentService = require("../services/commentService");
-const models = require("../models");
 
 // /studies/:id/comments
 const createComment = async (req, res) => {

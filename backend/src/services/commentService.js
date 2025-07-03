@@ -8,6 +8,7 @@ const createComment = async (studyId, userId, content) => {
     error.status = 404;
     throw error;
   }
+  // 2. 스터디 생성
   const newComment = await models.Comment.create({ studyId, userId, content });
   return newComment;
 };
@@ -17,6 +18,7 @@ const getCommentsList = async (studyId) => {
     where: { studyId },
     include: [{ model: models.User, as: "writer" }],
   });
+  // 작성자 이름 표시 가능한지
   return commentList;
 };
 

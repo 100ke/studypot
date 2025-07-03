@@ -32,6 +32,7 @@ const cancelLikeStudy = async (userId, studyId) => {
     error.status = 404;
     throw error;
   }
+  // 2. 좋아요 취소
   const result = await models.Like.destroy({
     where: { userId: userId, studyId: studyId },
   });
