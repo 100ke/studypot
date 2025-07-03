@@ -9,6 +9,9 @@ const signup = async (req, res) => {
 const login = async (req, res) => {
   const { email, password } = req.body;
   const result = await authService.login(email, password);
+  if (result.message) {
+    res.status(401).json({ error: result.message });
+  }
   //   res.status(200).json(result); // 토큰과 유저 정보가 모두 조회됨
   res
     .status(200)
