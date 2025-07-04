@@ -1,3 +1,4 @@
+const { where } = require("sequelize");
 const models = require("../models");
 const { checkDuplicate } = require("../utils/checkDuplicate");
 
@@ -29,10 +30,16 @@ const myRequestList = async (userId) => {
 };
 
 const getRequestForStudy = async (studyId, hostId) => {
-  // 1. studyId 소유자가 hostId인지 확인
   const study = await models.Study.findOne({ where: { id: studyId } });
+  // 1. 스터디 존재 여부 확인
+  if (!study) {
+    const error = new Error("스터디를 찾을 수 없습니다.");
+    error.status = 404;
+    throw error;
+  }
+  // 2. studyId 소유자가 hostId인지 확인
   if (study.hostId === hostId) {
-    // 2. 해당 스터디의 참여 신청 목록 조회
+    // 3. 해당 스터디의 참여 신청 목록 조회
     const joinRequests = await models.JoinRequest.findAll({
       where: { studyId: studyId },
     });
@@ -44,14 +51,26 @@ const getRequestForStudy = async (studyId, hostId) => {
   }
 };
 
-const updateRequestStatus = async (requestId, hostId, status) => {
-  // 1. 스터디 신청 조회
+const updateRequestStatus = async (requestId, studyId, hostId, status) => {
+  // 1. 스터디 존재 여부 조회
+  const study = await models.Study.findByPk(studyId);
+  if (!study) {
+    const error = new Error("해당 스터디를 찾을 수 없습니다.");
+    error.status = 404;
+    throw error;
+  }
+  // 2. 스터디 신청 존재 확인
   const request = await models.JoinRequest.findOne({
-    where: { id: requestId },
-    include: [{ model: models.Study, as: "study" }], //request.study.hostId
+    where: { id: requestId, studyId: studyId },
   });
+  if (!request) {
+    const error = new Error("해당 스터디 신청을 찾을 수 없습니다.");
+    error.status = 404;
+    throw error;
+  }
+
   // 2. 호스트 권한 확인
-  if (request.study.hostId !== hostId) {
+  if (study.hostId !== hostId) {
     const error = new Error("해당 요청에 대한 권한이 없습니다.");
     error.status = 403;
     throw error;

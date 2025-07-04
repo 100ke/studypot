@@ -9,8 +9,8 @@ const { authenticate } = require("../middlewares/authMiddleware");
 router.post("/", authenticate, studyController.createStudy);
 router.get("/", studyController.readStudyList);
 router.get("/:id", studyController.readStudy);
-router.patch("/:id", studyController.updateStudy);
-router.delete("/:id", studyController.deleteStudy);
+router.patch("/:id", authenticate, studyController.updateStudy);
+router.delete("/:id", authenticate, studyController.deleteStudy);
 
 router.post(
   "/:studyId/join",
