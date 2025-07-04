@@ -1,4 +1,5 @@
 const models = require("../models");
+// 컨트롤러->서비스 로직 이전 필요
 
 const createStudy = async (data) => {
   const newStudy = await models.Study.create(data);

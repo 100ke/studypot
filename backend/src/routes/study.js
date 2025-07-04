@@ -3,6 +3,7 @@ const router = express.Router();
 const studyController = require("../controllers/studyController");
 const joinRequestController = require("../controllers/joinRequestController");
 const likeController = require("../controllers/likeController");
+const commentController = require("../controllers/commentController");
 const { authenticate } = require("../middlewares/authMiddleware");
 
 router.post("/", authenticate, studyController.createStudy);
@@ -30,5 +31,8 @@ router.patch(
 router.post("/:id/like", authenticate, likeController.createLike);
 router.delete("/:id/like", authenticate, likeController.deleteLike);
 router.get("/:id/likes", likeController.totalLikes);
+
+router.post("/:id/comments", authenticate, commentController.createComment);
+router.get("/:id/comments", commentController.readCommentsList);
 
 module.exports = router;

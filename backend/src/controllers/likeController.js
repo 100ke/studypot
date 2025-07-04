@@ -10,9 +10,8 @@ const createLike = async (req, res) => {
 const deleteLike = async (req, res) => {
   const userId = req.user.id;
   const studyId = req.params.id;
-  const result = await likeService.cancelLikeStudy({
-    where: { userId: userId, studyId: studyId },
-  });
+  const result = await likeService.cancelLikeStudy(userId, studyId);
+  // 수정 필요 확인
   if (result > 0) {
     res.status(204).send();
   } else {
@@ -22,7 +21,7 @@ const deleteLike = async (req, res) => {
 
 const totalLikes = async (req, res) => {
   const studyId = req.params.id;
-  const likesCount = likeService.totalLikes(studyId);
+  const likesCount = await likeService.totalLikes(studyId);
   res.status(200).json({ message: "ok", likesCount });
 };
 

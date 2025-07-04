@@ -1,4 +1,5 @@
 const studyService = require("../services/studyService");
+// 서비스 로직으로 이동할 부분 확인
 
 const createStudy = async (req, res) => {
   const { title, description, location, startDate, endDate } = req.body;
@@ -49,6 +50,7 @@ const updateStudy = async (req, res) => {
 const deleteStudy = async (req, res) => {
   const id = req.params.id;
   const result = await studyService.deleteStudy({ where: { id: id } });
+  // 서비스 로직으로 이동 필요 확인
   if (result > 0) {
     res.status(204).send();
   } else {
